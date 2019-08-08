@@ -1,12 +1,18 @@
 <template>
-  <view class="bg" id="list" :style="{height:windowHeight + 'px',width:windowWidth + 'px'}">
+  <view
+    class="bg"
+    id="list"
+    :style="{height:windowHeight + 'px',width:windowWidth + 'px'}"
+    :animation="animationData"
+  >
     <ul>
       <li v-for="(v,i) in list">
-        <router-link :to='v.link'>{{v.name}}</router-link>
+        <!-- <navigator animation-type="pop-in" animation-duration="300" :url="v.link">{{v.name}}</navigator> -->
+        <a href="javascript:;" @click="to(v,i)">{{v.name}}</a>
       </li>
     </ul>
     <view class="icon_close">
-     <image src='../static/close.png'/>
+      <image @click="close" src="../static/close.png" />
     </view>
   </view>
 </template>
@@ -19,70 +25,103 @@ export default {
       list: [
         {
           name: "叶良辰",
-          link: ""
+          link: "index"
         },
         {
           name: "我会什么",
-          link: ""
+          link: "canIDo"
         },
         {
           name: "关于我",
-          link: ""
+          link: "aboutMe"
         },
         {
           name: "我的作品",
-          link: ""
+          link: "recentWorks"
         },
         {
           name: "我的技能",
-          link: ""
+          link: "skills"
         },
         {
           name: "工作经历",
-          link: ""
+          link: "works"
         },
         {
           name: "请联系我",
-          link: ""
+          link: "gameOver"
         }
       ],
       windowHeight: this.$store.state.windowHeight,
-      windowWidth: this.$store.state.windowWidth
+      windowWidth: this.$store.state.windowWidth,
+      animationData: {}
     };
   },
+  methods: {
+    to(v, i) {
+      uni.navigateTo({
+        url: v.link,
+        animationType: "slide-in-bottom",
+        animationDuration: 200
+      });
+    },
+    close() {
+      uni.navigateTo({
+        url: 'index',
+        animationType: "slide-in-bottom",
+        animationDuration: 200
+      });
+    }
+  },
+  onShow: function() {
+    var animation = uni.createAnimation({
+      duration: 400,
+      timingFunction: "linear"
+    });
+    this.animation = animation;
+    animation.scale(0, 0).step();
+    this.animationData = animation.export();
+    setTimeout(
+      function() {
+        animation.scale(1, 1).step();
+        this.animationData = animation.export();
+      }.bind(this),
+      400
+    );
+  }
 };
 </script>
 
 <style>
 .bg {
-  background: rgba(118,50,51,.9);
+  background: rgba(118, 50, 51, 0.9);
   flex-direction: row;
-   overflow-y: hidden;
+  overflow-y: hidden;
 }
-.bg ul{
+.bg ul {
   align-items: center;
   text-align: center;
   justify-content: center;
   padding: 90px 0 0 0;
 }
-.bg li{
+.bg li {
   margin-bottom: 36px;
 }
-.bg li a{
+.bg li a {
   color: #fff;
   line-height: 20px;
   font-size: 20px;
   letter-spacing: 2px;
 }
-.bg li:nth-of-type(1) a{
+.bg li:nth-of-type(1) a {
   font-size: 28px;
   font-weight: 500;
 }
-.icon_close{
+.icon_close {
   text-align: center;
-  height:1.5rem;
+  height: 1.5rem;
 }
-.icon_close image{
+.icon_close image {
   height: 1.5rem;
   width: 1.5rem;
 }

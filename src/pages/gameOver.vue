@@ -9,16 +9,16 @@
         <image src="../static/about1.png" />
       </view>
     </view>
-    <view class="over_box">
-      <image src='../static/over_bg.png'/>
-      <view class="tips">
+    <view class="over_box" >
+      <image class="tips_image" src='../static/over_bg.png' :animation="animationData2"/>
+      <view class="tips" :animation="animationData">
         <text>Please call me</text>
       </view>
-      <view class="call_phone">
+      <view class="call_phone" :animation="animationData">
         <text>18582459245</text>
       </view>
     </view>
-    <view class="over_bot">
+    <view class="over_bot" >
        <image src='../static/over_bot.png'/>
     </view>
   </view>
@@ -30,7 +30,9 @@ export default {
   data() {
     return {
       windowHeight: this.$store.state.windowHeight,
-      windowWidth: this.$store.state.windowWidth
+      windowWidth: this.$store.state.windowWidth,
+      animationData: {},
+      animationData2:{}
     };
   },
   methods: {
@@ -39,6 +41,34 @@ export default {
         url: "gameOver"
       });
     }
+  },
+   onShow: function() {
+    var animation = uni.createAnimation({
+      duration: 400,
+      timingFunction: "linear"
+    });
+    this.animation = animation;
+    this.animationData = animation.export();
+    setTimeout(
+      function() {
+        animation.translateY(0).step();
+        this.animationData = animation.export();
+      }.bind(this),
+      400
+    );
+
+     var animation2 = uni.createAnimation({
+      duration: 400,
+      timingFunction: "linear"
+    });
+    this.animation = animation2;
+    setTimeout(
+      function() {
+        animation2.scale(1,1).step();
+        this.animationData2 = animation2.export();
+      }.bind(this),
+      400
+    );
   }
 };
 </script>
@@ -55,6 +85,9 @@ export default {
   width: 150px;
   height: 176px;
 }
+.tips_image{
+  transform: scale(0);
+}
 .over_box .tips{
   margin: 40px 0 20px;
   text-align: center;
@@ -63,6 +96,9 @@ export default {
   color: #939297;
   font-weight: 600;
   letter-spacing: 1px;
+}
+.over_box .tips,.over_box .call_phone{
+  transform: translateY(100px);
 }
 .over_box .call_phone{
   letter-spacing: 8px;

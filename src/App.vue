@@ -31,6 +31,8 @@ export default {
 #work {
   position: fixed;
   overflow-y: hidden;
+  overflow-x: hidden;
+  z-index: 3;
 }
 a {
   text-decoration: none;

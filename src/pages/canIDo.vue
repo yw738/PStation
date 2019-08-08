@@ -11,7 +11,7 @@
         <image src="../static/about1.png" />
       </view>
     </view>
-    <view class="sec">
+    <view class="sec" :animation="animationData">
       <view class="left">
         <view class="box">
           <view class="fk_box active">
@@ -37,7 +37,7 @@
         </view>
       </view>
     </view>
-    <view class="img_box">
+    <view class="img_box" :animation="animationData2">
       <image src='../static/mac.png'/>
     </view>
     <view class="btn">
@@ -53,6 +53,8 @@ export default {
     return {
       windowHeight: this.$store.state.windowHeight,
       windowWidth: this.$store.state.windowWidth,
+      animationData: {},
+      animationData2: {},
     };
   },
   methods: {
@@ -61,6 +63,34 @@ export default {
         url: "recentWorks"
       });
     }
+  },
+  onShow: function() {
+    var animation = uni.createAnimation({
+      duration: 500,
+      timingFunction: "linear"
+    });
+    this.animation = animation;
+    animation.translateX(100).step();
+    this.animationData = animation.export();
+    setTimeout(
+      function() {
+        animation.translateX(0).step();
+        this.animationData = animation.export();
+      }.bind(this),
+      400
+    );
+    var animation2 = uni.createAnimation({
+      duration: 500,
+      timingFunction: "linear"
+    });
+    this.animation = animation2;
+    setTimeout(
+      function() {
+        animation2.scale(1,1).step();
+        this.animationData2 = animation2.export();
+      }.bind(this),
+      400
+    );
   }
 };
 </script>
@@ -114,6 +144,7 @@ export default {
   padding: 10px;
   box-sizing: border-box;
   height: 250px;
+  transform: scale(0)
 }
 #iDo .img_box image{
   width: 100%;
