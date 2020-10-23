@@ -1,30 +1,10 @@
 # demo
 
-## Project setup
-```
-yarn install
-```
+uniapp 移动端个人简历
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+npm run dev:h5
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+npm run build:h5
 
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-# PStation
+预览站点：
+https://yw738.github.io/psn/
