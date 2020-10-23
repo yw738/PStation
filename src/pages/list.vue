@@ -2,13 +2,13 @@
   <view
     class="bg"
     id="list"
-    :style="{height:windowHeight + 'px',width:windowWidth + 'px'}"
+    v-if="isShow"
+    :style="{ height: windowHeight + 'px', width: windowWidth + 'px' }"
     :animation="animationData"
   >
     <ul>
-      <li v-for="(v,i) in list">
-        <!-- <navigator animation-type="pop-in" animation-duration="300" :url="v.link">{{v.name}}</navigator> -->
-        <a href="javascript:;" @click="to(v,i)">{{v.name}}</a>
+      <li v-for="(v, i) in list" :key="i">
+        <a href="javascript:;" @click="to(v, i)">{{ v.name }}</a>
       </li>
     </ul>
     <view class="icon_close">
@@ -18,43 +18,47 @@
 </template>
 
 <script>
+/**
+ * 菜单列表
+*/
 export default {
   name: "",
   data() {
     return {
       list: [
         {
-          name: "叶良辰",
-          link: "index"
+          name: "111",
+          link: "index",
         },
         {
-          name: "我会什么",
-          link: "canIDo"
+          name: "111",
+          link: "canIDo",
         },
         {
-          name: "关于我",
-          link: "aboutMe"
+          name: "222",
+          link: "aboutMe",
         },
         {
-          name: "我的作品",
-          link: "recentWorks"
+          name: "333",
+          link: "recentWorks",
         },
         {
-          name: "我的技能",
-          link: "skills"
+          name: "444",
+          link: "skills",
         },
         {
-          name: "工作经历",
-          link: "works"
+          name: "555",
+          link: "works",
         },
         {
-          name: "请联系我",
-          link: "gameOver"
-        }
+          name: "666",
+          link: "gameOver",
+        },
       ],
       windowHeight: this.$store.state.windowHeight,
       windowWidth: this.$store.state.windowWidth,
-      animationData: {}
+      animationData: {},
+      isShow: false,
     };
   },
   methods: {
@@ -62,41 +66,58 @@ export default {
       uni.navigateTo({
         url: v.link,
         animationType: "slide-in-bottom",
-        animationDuration: 200
+        animationDuration: 200,
       });
     },
     close() {
-      uni.navigateTo({
-        url: 'index',
-        animationType: "slide-in-bottom",
-        animationDuration: 200
+      this.hideAnimation();
+    },
+    hideAnimation() {
+      var animation = uni.createAnimation({
+        duration: 300,
+        timingFunction: "linear",
+        transformOrigin: "100% 0",
       });
-    }
-  },
-  onShow: function() {
-    var animation = uni.createAnimation({
-      duration: 400,
-      timingFunction: "linear"
-    });
-    this.animation = animation;
-    animation.scale(0, 0).step();
-    this.animationData = animation.export();
-    setTimeout(
-      function() {
+      this.animation = animation;
+      animation.scale(1, 1).step();
+      this.animationData = animation.export();
+      setTimeout(() => {
+        animation.scale(0, 0).step();
+        this.animationData = this.animation.export();
+      }, 300);
+    },
+    showAnimation() {
+      this.isShow = true;
+      var animation = uni.createAnimation({
+        duration: 300,
+        timingFunction: "linear",
+        transformOrigin: "100% 0",
+      });
+      this.animation = animation;
+      animation.scale(0, 0).step();
+      this.animationData = animation.export();
+      setTimeout(() => {
         animation.scale(1, 1).step();
-        this.animationData = animation.export();
-      }.bind(this),
-      400
-    );
-  }
+        this.animationData = this.animation.export();
+      }, 300);
+    },
+  },
 };
 </script>
 
 <style>
-.bg {
-  background: rgba(118, 50, 51, 0.9);
+#list {
+  background-color: rgba(118, 50, 51, 1); /* 浏览器不支持时显示 */
+  background-image: linear-gradient(
+    rgba(118, 50, 51, 1),
+    rgba(118, 50, 51, 0.7)
+  );
   flex-direction: row;
   overflow-y: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999;
 }
 .bg ul {
   align-items: center;

@@ -1,21 +1,28 @@
 
 <template>
-  <view id="index" :style="{height:windowHeight + 'px',width:windowWidth + 'px'}">
-    <view>
-      <image class="list" @click="list" src="../static/list.png" />
+  <view
+    id="index"
+    :style="{ height: windowHeight + 'px', width: windowWidth + 'px' }"
+  >
+    <!-- 菜单按钮 -->
+    <view class="list" @click="showlist">
+      <view class="listBox">
+        <view></view>
+        <view></view>
+        <view></view>
+      </view>
     </view>
-    <image
-      class="index"
-      :style="{height:windowHeight + 'px',width:windowWidth + 'px'}"
-      src="https://img.zcool.cn/community/019d9d5aaf0395a80121246d4a1a1b.png@1280w_1l_2o_100sh.png"
+    <!-- 背景 -->
+    <view
+      
+      class="index_bg"
+      :style="{ height: windowHeight + 'px', width: windowWidth + 'px' }"
     />
-    <!-- https://img.zcool.cn/community/019d9d5aaf0395a80121246d4a1a1b.png@1280w_1l_2o_100sh.png -->
-
-    <!-- https://img.zcool.cn/community/019ed25d1ee199a801207640caaaad.jpg@2o.jpg -->
+    <!-- 下一页按钮 -->
     <view class="btn">
       <image @click="next" src="../static/button0.png" />
     </view>
-    <view class="index_tips">
+    <view class="index_tips" >
       <view>
         <text>W</text>
         <text>E</text>
@@ -33,29 +40,36 @@
         <text>!</text>
       </view>
     </view>
+    <List ref="listCom"/>
   </view>
 </template>
 
 <script>
+/**
+ * 首页
+*/
 import { debuglog } from "util";
+import List from "./list"
 export default {
+  components:{List},
   data() {
     return {
       windowHeight: this.$store.state.windowHeight,
-      windowWidth: this.$store.state.windowWidth
+      windowWidth: this.$store.state.windowWidth,
     };
   },
   onLoad() {},
   methods: {
     next() {
       uni.navigateTo({
-        url: "aboutMe"
+        url: "aboutMe",
       });
     },
-    list() {
-      uni.navigateTo({
-        url: "list"
-      });
+    showlist() {
+      // uni.navigateTo({
+      //   url: "list",
+      // });
+      this.$refs.listCom.showAnimation();
     },
   },
 };
@@ -65,25 +79,43 @@ export default {
 #index {
   overflow-y: hidden;
 }
-
+.index_bg {
+  background: #17a1ff;
+}
 .list {
   width: 2.5rem;
   height: 2.5rem;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
-  z-index: 999;
+  z-index: 99;
+  background: #e84c3f;
+  /* padding: ; */
+  padding: 0.72rem 0.7rem;
+  box-sizing: border-box;
+}
+.listBox {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-content: space-between;
+  flex-direction: column;
+}
+.listBox view {
+  background: #fff;
+  width: 100%;
+  height: 2px;
 }
 .index_tips {
   width: 200px;
   height: 380px;
   border: 4px solid #fefefc;
   box-sizing: border-box;
-  border-top: none;
+  /* border-top: none; */
   position: fixed;
   left: calc(50% - 100px);
   top: calc(50% - 190px);
-  background: rgba(196, 197, 201, 0.1); 
+  background: rgba(196, 197, 201, 0.1);
 }
 .index_tips view text {
   float: left;

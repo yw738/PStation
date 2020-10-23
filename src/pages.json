@@ -13,9 +13,9 @@
         {
             "path": "pages/gameOver"
         },
-        {
-            "path": "pages/list"
-        },
+        // {
+        //     "path": "pages/list"
+        // },
         {
             "path": "pages/recentWorks"
         },
